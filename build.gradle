@@ -19,7 +19,7 @@ dependencies {
     // https://mvnrepository.com/artifact/io.cucumber/cucumber-testng
     compile group: 'io.cucumber', name: 'cucumber-testng', version: '6.4.0'
     // https://mvnrepository.com/artifact/org.testng/testng
-    testCompile group: 'org.testng', name: 'testng', version: '7.3.0'
+    testCompile group: 'org.testng', name: 'testng', version: '7.0.0'
 
 
 }
