@@ -33,3 +33,14 @@ Feature: Search Sail
     When  the user wants to sort by price
     Then  the results are ordered by "price"
 
+  @story2
+  @case4
+  Scenario: successfully validate the selection show itinerary
+  This scenario consists of doing a filter by price
+  all of the results are between the ranges
+    When  the user wants to filter by price
+    And The user selects a sail
+    Then the user sees the itinerary page
+    And The user sees the bookNow button
+
+

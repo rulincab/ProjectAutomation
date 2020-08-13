@@ -1,31 +1,37 @@
 package steps;
 
 import cucumber.api.PendingException;
+import cucumber.api.Scenario;
 import cucumber.api.java.After;
 import cucumber.api.java.Before;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
-import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.*;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.remote.RemoteWebDriver;
 import org.testng.Assert;
 import pageobjects.ResultFilters;
+import pageobjects.SailDetails;
 import pageobjects.SearchCruices;
+
+import java.net.MalformedURLException;
+import java.net.URL;
 
 public class SearchSailSteps {
 
     private WebDriver driver;
     ResultFilters resultFilters;
+    SailDetails sailDetails;
 
     @Before
-    public void setUp(){
-        System.setProperty("webdriver.gecko.driver", "D:\\CURSO\\Drivers\\geckodriver.exe");
-        driver = new FirefoxDriver();
-
-        //System.setProperty("webdriver.chrome.driver", "D:\\CURSO\\Drivers\\chromedriver.exe");
-        //driver = new ChromeDriver();
-
+    public void setUp() throws MalformedURLException {
+        DesiredCapabilities capabilities = DesiredCapabilities.firefox();
+        //DesiredCapabilities capabilities = DesiredCapabilities.chrome();
+        driver = new RemoteWebDriver(new URL("http://localhost:4444/wd/hub"), capabilities);
+        //driver = new RemoteWebDriver(new URL("http://localhost:4444/wd/hub"), capabilities);
     }
 
     @Given("^The User is on the home page$")
@@ -92,11 +98,34 @@ public class SearchSailSteps {
         Assert.assertEquals(resultFilters.testSortByPrice(), byPrice);
     }
 
+
+    @And("^The user selects a sail$")
+    public void theUserSelectsASail() {
+        resultFilters = new ResultFilters(driver);
+        resultFilters.clickSelectSail();
+    }
+
+    @Then("^the user sees the itinerary page$")
+    public void theUserSeesTheItineraryPage() {
+        Assert.assertEquals(driver.getTitle(),"6 Day Bahamas Cruise From Norfolk | Carnival Cruise Line");
+        sailDetails.getBookNowButton();
+    }
+
+    @And("^The user sees the bookNow button$")
+    public void theUserSeesTheBookNowButton() {
+        sailDetails = new SailDetails(driver);
+        Assert.assertNotNull(sailDetails.getBookNowButton());
+    }
+
     @After
-    public void tearDown(){
+    public void tearDown(Scenario scenario){
+        if(scenario.isFailed())
+            takeScreenshot(scenario);
         driver.quit();
     }
 
-
-
+    private void takeScreenshot(Scenario scenario){
+        final byte[] screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
+        scenario.embed(screenshot, "image/png");
+    }
 }

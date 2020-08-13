@@ -3,12 +3,14 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.testng.Assert;
 import org.testng.annotations.*;
 import pageobjects.ResultFilters;
+import pageobjects.SailDetails;
 import pageobjects.SearchCruices;
 
 public class Automation {
 
     private WebDriver driver;
     ResultFilters resultFilters;
+    SailDetails sailDetails;
 
     @BeforeClass
     public void setUp(){
@@ -51,6 +53,16 @@ public class Automation {
         resultFilters.testSortByPrice();
         Assert.assertEquals(resultFilters.testSortByPrice(), "By price");
     }
+
+    @Test
+    public void testShowItinerary(){
+        resultFilters = new ResultFilters(driver);
+        resultFilters.clickSelectSail();
+        Assert.assertEquals(driver.getTitle(),"6 Day Bahamas Cruise From Norfolk | Carnival Cruise Line");
+        sailDetails.getBookNowButton();
+        Assert.assertNotNull(sailDetails.getBookNowButton());
+    }
+
 
     @AfterClass
     public void tearDown(){

@@ -44,8 +44,11 @@ public class ResultFilters {
     @FindBy(id = "sortOption not found")
     private WebElement sortByPrice;
 
-    @FindBy(xpath = "//span[text()=' The Bahamas from Norfolk, VA ']")
+    @FindBy(css = "div.vrcn-wrapper.vrcn-wrapper--centered article:first-child a.vrgf-learn-more__text.ng-binding")
     private WebElement selectSail;
+
+    @FindBy(css = "i.fa.fa-undo")
+    private WebElement loadSpiner;
 
     //Actions
     public void clickPrincingFilter() {
@@ -65,8 +68,9 @@ public class ResultFilters {
         action.perform();
     }
 
-    public String getResultAmount() {
+    public String getResultAmount() throws InterruptedException {
         wait.until(ExpectedConditions.visibilityOf(resetSearch));
+        wait.until(ExpectedConditions.visibilityOf(loadSpiner));
         return wait.until(ExpectedConditions.visibilityOf(resultAmount)).getText();
     }
 
