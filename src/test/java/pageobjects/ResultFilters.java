@@ -35,7 +35,7 @@ public class ResultFilters {
     @FindBy(css = "span.sbsc-container__result-count.ng-binding")
     private WebElement resultAmount;
 
-    @FindBy(css = "i.fa.fa-undo")
+    @FindBy(css = "span[ng-if='xfilter.isFilterApplied']")
     private WebElement resetSearch;
 
     @FindBy(css = "span.vrgf-price-box__price-value.ng-binding")

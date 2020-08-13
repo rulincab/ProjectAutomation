@@ -54,6 +54,5 @@ public class Automation {
 
     @AfterClass
     public void tearDown(){
-        driver.quit();
     }
 }
