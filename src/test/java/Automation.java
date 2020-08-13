@@ -47,6 +47,7 @@ public class Automation {
         Assert.assertEquals(resultFilters.getResultAmount(), "4 Results");
     }
 
+
     @Test
     public void testSortFilter(){
         resultFilters = new ResultFilters(driver);
